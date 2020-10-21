@@ -1,8 +1,11 @@
 import tkinter
 from tkinter import filedialog
+from backend import dmw_mini
 from tkinter import *
 window = tkinter.Tk()
 window.geometry("1024x720")
+
+backend_class = dmw_mini()
 
 def getTestInput():
     text.delete(0,tkinter.END)    
@@ -14,11 +17,13 @@ def getTestInput():
         
         
 def returnTestInput():
-    print(v.get())
-    print(text.get())
+    if v.get() == 1:
+        backend_class.read_test_data_and_predict(text)
+    else:
+        output = backend_class.read_test_text_and_predict(text.get())
     accuracy = '98.4'
     Label(window, text='Naive Bayes').grid(row=3,column=1)
-    Label(window, text=f'Accuracy : {accuracy}').grid(row=4,column=1 )
+    Label(window, text=f'Accuracy : {output[0]}').grid(row=4,column=1 )
     return (v.get(), text.get())
 
 

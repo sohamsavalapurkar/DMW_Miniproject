@@ -65,4 +65,5 @@ class dmw_mini:
         predictions.append(self.nbclf.predict(trans))
         predictions.append(self.knnclf.predict(trans))
         predictions.append(self.rfclf.predict(trans))
+        print(predictions)
         return predictions        
