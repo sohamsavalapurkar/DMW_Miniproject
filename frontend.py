@@ -11,19 +11,41 @@ def getTestInput():
     text.delete(0,tkinter.END)    
     if v.get() == 1:
     
-        filename =filedialog.askopenfilename(filetypes=(("text files","*.txt"),("All files","*.*")))
+        filename =filedialog.askopenfilename(filetypes=(("csv files","*.csv"),("All files","*.*")))
         
         text.insert(tkinter.END, filename)
-        
+
+print_output = {1:'positive', 2: 'negative'}        
         
 def returnTestInput():
     if v.get() == 1:
-        backend_class.read_test_data_and_predict(text)
+        accuracy, confusion_matrix = backend_class.read_test_data_and_predict(text.get())
+        Label(window, text='Naive Bayes').grid(row=3,column=1)
+        Label(window, text=f'Accuracy : {accuracy[0]}%').grid(row=4,column=1 )
+        Label(window, text=f'Confusion Matrix : ').grid(row=5,column=1 )
+        Label(window, text=f'{confusion_matrix[0][0]}').grid(row=6,column=1 )
+        Label(window, text=f'{confusion_matrix[0][1]}').grid(row=7,column=1 )
+
+        Label(window, text='KNN').grid(row=3,column=7)
+        Label(window, text=f'Accuracy : {accuracy[1]}%').grid(row=4,column=7)
+        Label(window, text=f'Confusion Matrix : ').grid(row=5,column=7 )
+        Label(window, text=f'{confusion_matrix[1][0]}').grid(row=6,column=7 )
+        Label(window, text=f'{confusion_matrix[1][1]}').grid(row=7,column=7 )
+    
+        Label(window, text='Random Forest').grid(row=3,column=10)
+        Label(window, text=f'Accuracy : {accuracy[2]}%').grid(row=4,column=10)
+        Label(window, text=f'Confusion Matrix : ').grid(row=5,column=10)
+        Label(window, text=f'{confusion_matrix[2][0]}').grid(row=6,column=10 )
+        Label(window, text=f'{confusion_matrix[2][1]}').grid(row=7,column=10 )
+
     else:
         output = backend_class.read_test_text_and_predict(text.get())
-    accuracy = '98.4'
-    Label(window, text='Naive Bayes').grid(row=3,column=1)
-    Label(window, text=f'Accuracy : {output[0]}').grid(row=4,column=1 )
+        Label(window, text='Naive Bayes').grid(row=3,column=1)
+        Label(window, text=f'Prediction : {print_output[output[0][0]]} review').grid(row=4,column=1 )
+        Label(window, text='KNN').grid(row=3,column=5)
+        Label(window, text=f'Prediction : {print_output[output[1][0]]} review').grid(row=4,column=5)
+        Label(window, text='Random Forest').grid(row=3,column=9)
+        Label(window, text=f'Prediction : {print_output[output[2][0]]} review').grid(row=4,column=9 )
     return (v.get(), text.get())
 
 

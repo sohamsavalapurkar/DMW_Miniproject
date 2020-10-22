@@ -55,6 +55,8 @@ class dmw_mini:
         confusionMat.append(metrics.confusion_matrix(self.y_test, predictions[0]))
         confusionMat.append(metrics.confusion_matrix(self.y_test, predictions[1]))
         confusionMat.append(metrics.confusion_matrix(self.y_test, predictions[2]))
+        print(accuracy)
+        print(confusionMat)
         return accuracy, confusionMat
     
     def read_test_text_and_predict(self, text):
