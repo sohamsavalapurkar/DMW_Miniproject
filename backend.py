@@ -24,19 +24,27 @@ class dmw_mini:
     rfclf = None
     
     def __init__(self):
-        data_dir = os.path.join(os.getcwd(), "dmw_data")
+        data_dir = os.getcwd()
+        print("Loading Train File ...", end = "\t\t\t")
         data = pd.read_csv(os.path.join(data_dir, "Train.csv"))
         self.x_train = data["text"]
         self.y_train = data["label"]
+        print("Completed\nGenerating Transforms ...", end = "\t\t")
         self.vectorizer = TfidfVectorizer(stop_words = 'english')
         self.vectorizer.fit(self.x_train)
         self.x_train_transform = self.vectorizer.transform(self.x_train)
+        print("Completed")
         self.naive_bayes = MultinomialNB()
         self.knn = KNeighborsClassifier(n_neighbors=171)
         self.rf = RandomForestClassifier(n_estimators=50, random_state=0)
+        print("Training Naive Bayes ...", end = "\t\t")
         self.nbclf = self.naive_bayes.fit(self.x_train_transform, self.y_train)
+
+        print("Completed\nTraining KNN ...", end = "\t\t\t")
         self.knnclf = self.knn.fit(self.x_train_transform, self.y_train)
+        print("Completed\nTraining Random Forest ...", end = "\t\t")
         self.rfclf = self.rf.fit(self.x_train_transform, self.y_train)
+        print("Completed\nLaunching GUI")
     
     def read_test_data_and_predict(self, filepath):
         data = pd.read_csv(filepath)
